@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Link Shopee Affiliate của Miu Miu</title>
+  <meta name="description" content="Trang tổng hợp link Shopee affiliate của Miu Miu: tìm kiếm nhanh, lọc danh mục tự động, có ảnh thumbnail, copy link 1 chạm." />
+  <meta name="theme-color" content="#ff5a1f" />
+  <style>
+    :root{ --bg:#0f1115; --card:#151922; --muted:#9aa4ad; --text:#e8edf2; --brand:#ff5a1f; --ring:#ff8a50; }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{position:sticky;top:0;z-index:10;background:rgba(21,25,34,.7);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #242a36}
+    .container{max-width:1000px;margin:0 auto;padding:16px}
+    h1{margin:0;font-size:22px}
+    .muted{color:var(--muted);font-size:13px}
+    .controls{display:grid;grid-template-columns:1fr 200px;gap:10px;margin-top:12px}
+    input,select,button{height:40px;border-radius:12px;border:1px solid #2a3242;background:#0f131b;color:var(--text);padding:0 12px;outline:none}
+    input:focus,select:focus,button:focus{border-color:#39465e;box-shadow:0 0 0 3px #39465e55}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:16px}
+    .card{background:var(--card);border:1px solid #232a38;border-radius:16px;overflow:hidden;text-align:center;display:flex;flex-direction:column}
+    .card img{width:100%;aspect-ratio:1/1;object-fit:cover}
+    .card-inner{padding:12px}
+    .title{font-weight:600;margin:0 0 8px;font-size:15px}
+    .tag{display:inline-block;padding:2px 8px;border:1px solid #2a3242;border-radius:999px;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .row{display:flex;gap:8px;margin-top:10px}
+    .btn{flex:1;height:40px;border-radius:12px;border:1px solid #2a3242;background:#0f131b;color:var(--text);cursor:pointer}
+    .btn-primary{background:linear-gradient(180deg,#ff7a1f,#ff5a1f);border:none}
+    .footer{opacity:.8;text-align:center;padding:28px 12px;color:var(--muted);font-size:13px}
+    .empty{border:1px dashed #2a3242;border-radius:16px;padding:20px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>🌸 Link Shopee Affiliate của Miu Miu</h1>
+      <div class="muted">Tìm kiếm nhanh • Lọc danh mục tự động • Có ảnh thumbnail</div>
+      <div class="controls" role="search">
+        <input id="q" type="search" placeholder="Tìm theo tên sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
+        <select id="cat" aria-label="Lọc danh mục">
+          <option value="">Tất cả danh mục</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="list" class="grid" aria-live="polite"></div>
+    <div id="empty" class="empty" style="display:none">Không tìm thấy sản phẩm phù hợp.</div>
+  </main>
+
+  <footer class="footer">
+    © <span id="y"></span> by Miu Miu • Muốn thêm sản phẩm? Chỉ cần bổ sung vào mảng PRODUCTS trong file này.
+  </footer>
+
+  <script>
+    // ======= 1) DỮ LIỆU SẢN PHẨM (Mẫu) =======
+    const PRODUCTS = [
+      { name: "Set áo babydoll kèm quần short", url: "https://s.shopee.vn/8fIWlIato8", img: "./images/babydoll.jpg", cat: "Thời trang nữ" },
+      { name: "Set áo sơ mi kèm chân váy 2 tầng", url: "https://s.shopee.vn/9Urdl0TcvY", img: "./images/somi-vay.jpg", cat: "Thời trang nữ" }
+    ];
+    // 👉 Sau này chỉ cần thêm { name, url, img, cat } vào mảng trên là web tự hiện.
+
+    const list = document.getElementById("list");
+    const empty = document.getElementById("empty");
+    const q = document.getElementById("q");
+    const cat = document.getElementById("cat");
+    const year = document.getElementById("y");
+    if (year) year.textContent = new Date().getFullYear();
+
+    const norm = (s) => (s || "").toString().normalize("NFD").replace(/\p{Diacritic}+/gu, "").toLowerCase().trim();
+
+    function escapeHtml(s){
+      return (s || "").toString().replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[c]));
+    }
+
+    function buildCategories() {
+      const set = new Set();
+      for (const p of PRODUCTS) set.add((p.cat || "Khác").trim());
+      for (let i = cat.options.length - 1; i >= 1; i--) cat.remove(i);
+      [...set].sort().forEach(label => {
+        const opt = document.createElement("option");
+        opt.value = label; opt.textContent = label; cat.appendChild(opt);
+      });
+    }
+
+    function render(items){
+      list.innerHTML = "";
+      if(items.length === 0){ empty.style.display = "block"; return; }
+      empty.style.display = "none";
+      for(const item of items){
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${item.img}" alt="${escapeHtml(item.name)}" />
+          <div class="card-inner">
+            <h2 class="title">${escapeHtml(item.name)}</h2>
+            <span class="tag">${escapeHtml(item.cat || "Khác")}</span>
+            <div class="row">
+              <a class="btn btn-primary" href="${encodeURI(item.url)}" target="_blank" rel="noopener">Mở Shopee</a>
+              <button class="btn">Copy link</button>
+            </div>
+          </div>`;
+        const copyBtn = card.querySelector("button");
+        copyBtn.addEventListener("click", async () => {
+          try{ await navigator.clipboard.writeText(item.url); copyBtn.textContent = "Đã copy ✓"; setTimeout(()=>copyBtn.textContent="Copy link", 1200);}catch{ alert("Không copy được, hãy copy thủ công."); }
+        });
+        list.appendChild(card);
+      }
+    }
+
+    function applyFilter(){
+      const keyword = norm(q?.value);
+      const cate = norm(cat?.value || "");
+      const filtered = PRODUCTS.filter(p => norm(p.name).includes(keyword) && (!cate || norm(p.cat||"")===cate));
+      render(filtered);
+    }
+
+    buildCategories();
+    render(PRODUCTS);
+    q?.addEventListener("input", applyFilter);
+    cat?.addEventListener("change", applyFilter);
+  </script>
+</body>
+  </html>
