@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Link Shopee Affiliate của Miu Miu</title>
-  <meta name="description" content="Trang tổng hợp link Shopee affiliate của Miu Miu: tìm kiếm nhanh, lọc danh mục tự động, có ảnh thumbnail, copy link 1 chạm." />
+  <title>May baby</title>
+  <meta name="description" content="Tủ đồ nhỏ của May baby: tìm kiếm nhanh, lọc danh mục, có ảnh thumbnail." />
   <meta name="theme-color" content="#ff5a1f" />
   <style>
-    :root{ --bg:#0f1115; --card:#151922; --muted:#9aa4ad; --text:#e8edf2; --brand:#ff5a1f; --ring:#ff8a50; }
+    :root{ --bg:#0f1115; --card:#151922; --muted:#9aa4ad; --text:#e8edf2; --brand:#ff5a1f; }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
     header{position:sticky;top:0;z-index:10;background:rgba(21,25,34,.7);backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid #242a36}
@@ -33,8 +33,8 @@
 <body>
   <header>
     <div class="container">
-      <h1>🌸 Link Shopee Affiliate của Miu Miu</h1>
-      <div class="muted">Tìm kiếm nhanh • Lọc danh mục tự động • Có ảnh thumbnail</div>
+      <h1>🌸 May baby</h1>
+      <div class="muted">Tủ đồ nhỏ của May baby • Tìm kiếm nhanh • Lọc danh mục tự động • Có ảnh thumbnail</div>
       <div class="controls" role="search">
         <input id="q" type="search" placeholder="Tìm theo tên sản phẩm..." aria-label="Tìm kiếm sản phẩm" />
         <select id="cat" aria-label="Lọc danh mục">
@@ -50,26 +50,25 @@
   </main>
 
   <footer class="footer">
-    © <span id="y"></span> by Miu Miu • Muốn thêm sản phẩm? Chỉ cần bổ sung vào mảng PRODUCTS trong file này.
+    © <span id="y"></span> by May baby
   </footer>
 
   <script>
-    // ======= 1) DỮ LIỆU SẢN PHẨM (Mẫu) =======
+    // ======= 1) DỮ LIỆU SẢN PHẨM =======
     const PRODUCTS = [
-  { 
-    name: "Set áo babydoll kèm quần short",
-    url: "https://s.shopee.vn/8fIWlIato8",
-    img: "images/103717cb-f17b-4fcf-bcd8-4af56b2c02f2.jpeg",
-    cat: "Thời trang nữ"
-  },
-  { 
-    name: "Set áo sơ mi kèm chân váy 2 tầng",
-    url: "https://s.shopee.vn/9Urdl0TcvY",
-    img: "dc07b0fe-57f1-4fcd-b490-467fe562c0ee.jpeg",
-    cat: "Thời trang nữ"
-  }
-];
-    // 👉 Sau này chỉ cần thêm { name, url, img, cat } vào mảng trên là web tự hiện.
+      {
+        name: "Set áo babydoll kèm quần short",
+        url: "https://s.shopee.vn/8fIWlIato8",
+        img: "images/103717cb-f17b-4fcf-bcd8-4af56b2c02f2.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Set áo sơ mi kèm chân váy 2 tầng",
+        url: "https://s.shopee.vn/9Urdl0TcvY",
+        img: "images/dc07b0fe-57f1-4fcd-b490-467fe562c0ee.jpeg",
+        cat: "Thời trang nữ"
+      }
+    ];
 
     const list = document.getElementById("list");
     const empty = document.getElementById("empty");
@@ -78,10 +77,14 @@
     const year = document.getElementById("y");
     if (year) year.textContent = new Date().getFullYear();
 
-    const norm = (s) => (s || "").toString().normalize("NFD").replace(/\p{Diacritic}+/gu, "").toLowerCase().trim();
+    const norm = (s) => (s || "").toString()
+      .normalize("NFD").replace(/\p{Diacritic}+/gu, "")
+      .toLowerCase().trim();
 
     function escapeHtml(s){
-      return (s || "").toString().replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','\'':'&#39;','"':'&quot;'}[c]));
+      return (s || "").toString().replace(/[&<>'"]/g, c => (
+        {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]
+      ));
     }
 
     function buildCategories() {
@@ -113,7 +116,13 @@
           </div>`;
         const copyBtn = card.querySelector("button");
         copyBtn.addEventListener("click", async () => {
-          try{ await navigator.clipboard.writeText(item.url); copyBtn.textContent = "Đã copy ✓"; setTimeout(()=>copyBtn.textContent="Copy link", 1200);}catch{ alert("Không copy được, hãy copy thủ công."); }
+          try{
+            await navigator.clipboard.writeText(item.url);
+            copyBtn.textContent = "Đã copy ✓";
+            setTimeout(()=>copyBtn.textContent="Copy link", 1200);
+          }catch{
+            alert("Không copy được, hãy copy thủ công.");
+          }
         });
         list.appendChild(card);
       }
@@ -122,7 +131,9 @@
     function applyFilter(){
       const keyword = norm(q?.value);
       const cate = norm(cat?.value || "");
-      const filtered = PRODUCTS.filter(p => norm(p.name).includes(keyword) && (!cate || norm(p.cat||"")===cate));
+      const filtered = PRODUCTS.filter(p =>
+        norm(p.name).includes(keyword) && (!cate || norm(p.cat||"")===cate)
+      );
       render(filtered);
     }
 
@@ -132,4 +143,4 @@
     cat?.addEventListener("change", applyFilter);
   </script>
 </body>
-  </html>
+</html>
