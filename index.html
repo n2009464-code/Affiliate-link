@@ -54,8 +54,9 @@
   </footer>
 
   <script>
-    // ======= DỮ LIỆU SẢN PHẨM =======
+    // ======= DỮ LIỆU SẢN PHẨM (10 sản phẩm) =======
     const PRODUCTS = [
+      // 1–4 (đợt đầu)
       {
         name: "Set áo babydoll kèm quần short",
         url: "https://s.shopee.vn/8fIWlIato8",
@@ -78,6 +79,44 @@
         name: "Set quần áo croptop cardigan chân váy ngắn",
         url: "https://s.shopee.vn/3LH0Pv80M2",
         img: "images/c923971c-4657-4da2-b2c7-dc5b2d1eab80.jpeg",
+        cat: "Thời trang nữ"
+      },
+
+      // 5–10 (đợt mới)
+      {
+        name: "Set sơ mi tay dài kèm quần ngắn kẻ sọc",
+        url: "https://s.shopee.vn/AUkCGBPZlk",
+        img: "images/d49216f4-6031-4d21-a1a5-b2fb49c52942.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Set váy cổ yếm đính ngọc",
+        url: "https://s.shopee.vn/3VaRvRacPr",
+        img: "images/f6482569-289e-4ada-a01a-cc7338ebca03.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Set váy kẻ cột nơ dáng bí tay bồng",
+        url: "https://s.shopee.vn/20le8sgE0z",
+        img: "images/db375392-92de-40b5-9d56-b9fc0b708616.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Váy tiểu thư in hoa đỏ kèm áo khoác vải thun",
+        url: "https://s.shopee.vn/9KYEsTJw4g",
+        img: "images/a7b00d2c-d8d6-4823-8a57-51ade824a353.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Váy xếp ly kẻ sọc trắng đỏ",
+        url: "https://s.shopee.vn/1BCX9ZgpsZ",
+        img: "images/f530c768-a39d-4827-8392-b38c54205c62.jpeg",
+        cat: "Thời trang nữ"
+      },
+      {
+        name: "Váy 2 dây đỏ cao cấp phối bèo xẻ đùi tôn dáng",
+        url: "https://s.shopee.vn/3VaRvwspF7",
+        img: "images/d217e817-5d2e-443f-9c9a-af645b21b2de.jpeg",
         cat: "Thời trang nữ"
       }
     ];
@@ -110,7 +149,7 @@
         const card = document.createElement("article"); card.className = "card";
         const img = document.createElement("img");
         img.alt = item.name || "";
-        // encodeURI để xử lý tên file có dấu cách / dấu ngoặc
+        // encodeURI để xử lý tên file có khoảng trắng / dấu ngoặc (ví dụ "(1)")
         img.src = encodeURI(item.img);
         img.onerror = () => {
           img.onerror = null;
