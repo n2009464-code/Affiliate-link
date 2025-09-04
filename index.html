@@ -365,12 +365,22 @@
         const inner = document.createElement("div");
         inner.className = "card-inner";
         inner.innerHTML = `
-          <h2 class="title">${escapeHtml(item.name)}</h2>
-          <span class="tag">${escapeHtml(item.cat || "Khác")}</span>
-          <div class="row">
-            <a class="btn btn-primary" href="${encodeURI(item.url)}" target="_blank" rel="noopener">Mở Shopee</a>
-            <button class="btn">Copy link</button>
-          </div>
+  <h2 class="title">${escapeHtml(item.name)}</h2>
+  <span class="tag">${escapeHtml(item.cat || "Khác")}</span>
+  <div class="row">
+    <a class="btn btn-primary"
+       href="${encodeURI(item.url)}"
+       target="_blank"
+       rel="noopener"
+       onclick="gtag('event', 'click_product', {
+         event_category: 'Shopee',
+         event_label: '${escapeHtml(item.name)}'
+       });">
+       Mở Shopee
+    </a>
+    <button class="btn">Copy link</button>
+  </div>
+`;
         `;
         const copyBtn = inner.querySelector("button");
         copyBtn.addEventListener("click", async () => {
