@@ -372,10 +372,7 @@
        href="${encodeURI(item.url)}"
        target="_blank"
        rel="noopener"
-       onclick="gtag('event', 'click_product', {
-         event_category: 'Shopee',
-         event_label: '${escapeHtml(item.name)}'
-       });">
+       onclick="gtag('event','click_product',{event_category:'Shopee',event_label:'${escapeHtml(item.name)}'});">
        Mở Shopee
     </a>
     <button class="btn">Copy link</button>
